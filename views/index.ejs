@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <h2>Todo List</h2>
+    <form action="/add" method="POST" class="todo-form">
+        <input type="text" name="todo" placeholder="Enter a task" required>
+        <select name="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <button type="submit">Add</button>
+    </form>
+
+    <ul class="todo-list">
+        <% todos.forEach((todo, index) => { %>
+            <li class="<%= todo.done ? 'completed' : '' %>">
+                <form action="/toggle" method="POST" style="display:inline;">
+                    <input type="hidden" name="index" value="<%= index %>">
+                    <button type="submit">✔</button>
+                </form>
+                <%= todo.text %> [<%= todo.priority %>]
+                <form action="/delete" method="POST" style="display:inline;">
+                    <input type="hidden" name="index" value="<%= index %>">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+
+<%- include('partials/footer') %>
